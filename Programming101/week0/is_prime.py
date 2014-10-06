@@ -7,6 +7,7 @@ def is_prime(n):
             prime = False
     return prime
 
+
 def main():
     print(is_prime(1))
     print(is_prime(2))

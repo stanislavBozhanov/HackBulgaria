@@ -1,5 +1,6 @@
 from is_prime import is_prime
 
+
 def number_of_divisors(n):
     count = 0
     for number in range(1, n+1):
