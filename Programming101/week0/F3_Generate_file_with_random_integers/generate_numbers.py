@@ -10,5 +10,6 @@ def main():
         file.write(' '.join(str(number)))
 
     file.close()
+
 if __name__ == '__main__':
     main()
