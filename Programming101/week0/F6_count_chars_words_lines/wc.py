@@ -10,7 +10,7 @@ def wc(command, filename):
         words = content.split(' ')
         return len(words)
     elif command == 'lines':
-        lines = content.splitlines()
+        lines = content.split('\n')
         return len(lines)
     else:
         return 'Wrong command!'
