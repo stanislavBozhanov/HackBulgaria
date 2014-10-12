@@ -1,4 +1,5 @@
 import sys
+import re
 
 
 def wc(command, filename):
@@ -7,7 +8,7 @@ def wc(command, filename):
     if command == 'chars':
         return len(content)
     elif command == 'words':
-        words = content.split(' ')
+        words = re.split(' |\n\n', content)
         return len(words)
     elif command == 'lines':
         lines = content.split('\n')
