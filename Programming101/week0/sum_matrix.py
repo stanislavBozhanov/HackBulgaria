@@ -1,8 +1,8 @@
-def sum_matrix(m):
-    sum_ = 0
-    for list_ in m:
-        sum_ += sum(list_)
-    return sum_
+def sum_matrix(temp_m):
+    total_sum = 0
+    for row in temp_m:
+        total_sum += sum(row)
+    return total_sum
 
 
 def main():

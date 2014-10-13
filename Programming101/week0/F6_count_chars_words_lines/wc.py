@@ -8,13 +8,14 @@ def wc(command, filename):
     if command == 'chars':
         return len(content)
     elif command == 'words':
-        words = re.split(' |\n\n', content)
+        words = re.split(' |\n\n', content)  # or just .split()
         return len(words)
     elif command == 'lines':
         lines = content.split('\n')
         return len(lines)
     else:
         return 'Wrong command!'
+    txt_file.close()
 
 
 def main():
