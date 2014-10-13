@@ -1,3 +1,6 @@
+import copy
+
+
 def init_battlefiled(size):
     result_dict = {}
     for r in range(size[0]):
@@ -27,7 +30,6 @@ def sum_matrix(temp_m):
 
 def bomb(m, field):
     size = get_size(m)
-    temp_m = m
     temp_xy = [(-1, -1), (0, -1), (1, -1),
                (-1, 0), (1, 0),
                (-1, 1), (0, 1), (1, 1)]
@@ -38,10 +40,10 @@ def bomb(m, field):
         r2 = field[0]
         c2 = field[1]
         if fileds_exist(cur_field, size):
-            temp_m[r1][c1] = temp_m[r1][c1] - temp_m[r2][c2]
-            if temp_m[r1][c1] < 0:
-                temp_m[r1][c1] = 0
-    return temp_m
+            m[r1][c1] = m[r1][c1] - m[r2][c2]
+            if m[r1][c1] < 0:
+                m[r1][c1] = 0
+    return m
 
 
 def matrix_bombing_plan(m):
@@ -50,13 +52,21 @@ def matrix_bombing_plan(m):
     for r in range(size[0]):
         for c in range(size[1]):
             field = (r, c)
-            temp_m = bomb(m, field)
-            print(temp_m)
+            temp_m = bomb(copy.deepcopy(m), field)
             total_sum = sum_matrix(temp_m)
             plan[field] = total_sum
-            print(field, ":", plan[field])
+    return plan
+
+
+def main():
+    m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    size = get_size(m)
+    result = matrix_bombing_plan(m)
+
+    for r in range(size[0]):
+        for c in range(size[1]):
+            print((r, c), ":", result[r, c])
 
 
 if __name__ == '__main__':
-    print(matrix_bombing_plan([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
-     
+    main()
