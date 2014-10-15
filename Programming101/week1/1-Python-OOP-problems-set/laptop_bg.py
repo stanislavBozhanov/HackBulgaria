@@ -29,43 +29,33 @@ class Store(object):
     def __init__(self, name):
         self.name = name
         self.products = {}
+        self.income = 0
 
-    def load_new_products(self, product_class, count):
-        if product_class in self.products:
-            self.products[product_class] += count
+    def load_new_products(self, product, count):
+        if product in self.products:
+            self.products[product] += count
         else:
-            self.products[product_class] = count
+            self.products[product] = count
 
     def list_products(self, product_class):
         for product in self.products:
             if isinstance(product, product_class):
                 print("{} - {}".format(product, self.products[product]))
 
-    def sell_product(self, product_class):
-        for product in self.products:
-            if isinstance(product, product_class):
-                if self.products[product] > 0:
-                    self.products[product] -= 1
-                    return True
-                else:
-                    return False
+    def sell_product(self, product):
+        if self.products[product] > 0:
+            self.products[product] -= 1
+            self.income += product.profit()
+            return True
+        else:
+            return False
 
-        """
-            if self.products[product_class] > 0:
-                    self.products[product_class] -= 1
-                    return True
-            else:
-                print("N/A")
-                return False
-        """
+    def total_income(self):
+        return self.income
 
-new_product = Product('HP HackBook', 1000, 1243)
-new_laptop = Laptop('HP HackBook', 1000, 1243, 1000, 4)
-new_smarthphone = Smartphone('Hack Phone', 500, 820, 7, 10)
-new_store = Store('Laptop.bg')
-new_store.load_new_products(new_smarthphone, 2)
-new_store.list_products(Smartphone)
-print(new_store.sell_product(Smartphone))
-print(new_store.sell_product(Smartphone))
-print(new_store.sell_product(Smartphone))
-new_store.list_products(Smartphone)
+store = Store('Laptop.bg')
+smarthphone = Smartphone('Hack Phone', 500, 820, 7, 10)
+store.load_new_products(smarthphone, 2)
+store.sell_product(smarthphone)  # True
+store.sell_product(smarthphone)  # True
+print(store.total_income())  # 640
