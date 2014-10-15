@@ -30,21 +30,42 @@ class Store(object):
         self.name = name
         self.products = {}
 
-    def load_new_products(self, product, count):
-        if product in self.products:
-            self.products[product] += count
+    def load_new_products(self, product_class, count):
+        if product_class in self.products:
+            self.products[product_class] += count
         else:
-            self.products[product] = count
+            self.products[product_class] = count
 
     def list_products(self, product_class):
         for product in self.products:
             if isinstance(product, product_class):
                 print("{} - {}".format(product, self.products[product]))
 
+    def sell_product(self, product_class):
+        for product in self.products:
+            if isinstance(product, product_class):
+                if self.products[product] > 0:
+                    self.products[product] -= 1
+                    return True
+                else:
+                    return False
+
+        """
+            if self.products[product_class] > 0:
+                    self.products[product_class] -= 1
+                    return True
+            else:
+                print("N/A")
+                return False
+        """
 
 new_product = Product('HP HackBook', 1000, 1243)
 new_laptop = Laptop('HP HackBook', 1000, 1243, 1000, 4)
 new_smarthphone = Smartphone('Hack Phone', 500, 820, 7, 10)
 new_store = Store('Laptop.bg')
-new_store.load_new_products(new_smarthphone, 20)
+new_store.load_new_products(new_smarthphone, 2)
+new_store.list_products(Smartphone)
+print(new_store.sell_product(Smartphone))
+print(new_store.sell_product(Smartphone))
+print(new_store.sell_product(Smartphone))
 new_store.list_products(Smartphone)
