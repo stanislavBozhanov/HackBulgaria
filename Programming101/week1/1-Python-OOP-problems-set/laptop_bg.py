@@ -43,7 +43,7 @@ class Store(object):
                 print("{} - {}".format(product, self.products[product]))
 
     def sell_product(self, product):
-        if self.products[product] > 0:
+        if product in self.products and self.products[product] > 0:
             self.products[product] -= 1
             self.income += product.profit()
             return True
@@ -55,7 +55,8 @@ class Store(object):
 
 store = Store('Laptop.bg')
 smarthphone = Smartphone('Hack Phone', 500, 820, 7, 10)
+smarthphone2 = Smartphone('Hack Phone Lqlql', 500, 820, 7, 10)
 store.load_new_products(smarthphone, 2)
 store.sell_product(smarthphone)  # True
-store.sell_product(smarthphone)  # True
+store.sell_product(smarthphone2)  # True
 print(store.total_income())  # 640
