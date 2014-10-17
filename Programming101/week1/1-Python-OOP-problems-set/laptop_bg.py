@@ -1,9 +1,9 @@
-class Product(object):
+class Product(object):            
     def __init__(self, name, stock_price, final_price):
         self.name = name
         self.stock_price = stock_price
         self.final_price = final_price
-
+ 
     def __str__(self):
         return self.name
 
