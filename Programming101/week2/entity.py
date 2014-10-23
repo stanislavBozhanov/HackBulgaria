@@ -3,7 +3,7 @@ class Entity(object):
         self.name = name
         self.health = health
         self._MAX_HEALTH = health
-        self.equipped_weapon = []
+        self.equipped_weapon = None
 
     def get_health(self):
         return self.health
@@ -33,13 +33,13 @@ class Entity(object):
             return False
 
     def equip_weapon(self, weapon):
-        if self.has_weapon():
-            self.equipped_weapon[0] = weapon
-        else:
-            self.equipped_weapon.append(weapon)
+        self.equipped_weapon = weapon
 
     def attack(self):
-        if self.has_weapon():
-            return self.equipped_weapon[0].damage
-        else:
+        if not self.has_weapon():
             return 0
+
+        if self.equipped_weapon.critical_hit():
+            return self.equipped_weapon.damage * 2
+        else:
+            return self.equipped_weapon.damage

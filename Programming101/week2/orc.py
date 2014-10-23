@@ -13,8 +13,4 @@ class Orc(Entity):
             raise ValueError
 
     def attack(self):
-        if self.has_weapon():
-            damage = self.equipped_weapon[0].damage * self.berserk_factor
-            return round(damage, 2)
-        else:
-            return 0
+        return Entity.attack(self) * self.berserk_factor

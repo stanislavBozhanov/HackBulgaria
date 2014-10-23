@@ -18,7 +18,7 @@ class TestOrc(unittest.TestCase):
     def test_attack(self):
         self.assertEqual(self.sho.attack(), 0)
         self.sho.equip_weapon(self.bow)
-        self.assertEqual(self.sho.attack(), 17.42)
+        self.assertIn(self.sho.attack(), [17.42, 34.84])
 
 if __name__ == '__main__':
     unittest.main()

@@ -3,7 +3,7 @@ from weapon import Weapon
 import unittest
 
 
-class Teentity(unittest.TestCase):
+class TestEntity(unittest.TestCase):
     def setUp(self):
         self.en = Entity("Dude", 100)
         self.bow = Weapon("Mighty Bow", 13, 0.17)
@@ -47,20 +47,19 @@ class Teentity(unittest.TestCase):
 
     def test_equip_weapon(self):
         self.en.equip_weapon(self.bow)
-        self.assertEqual(self.en.equipped_weapon[0], self.bow)
+        self.assertEqual(self.en.equipped_weapon, self.bow)
 
     def test_equip_weapon_get_new_weapon(self):
         self.en.equip_weapon(self.bow)
         self.en.equip_weapon(self.axe)
-        self.assertEqual(self.en.equipped_weapon[0], self.axe)
-        self.assertEqual(len(self.en.equipped_weapon), 1)
+        self.assertEqual(self.en.equipped_weapon, self.axe)
 
     def test_attack(self):
         self.assertEqual(self.en.attack(), 0)
         self.en.equip_weapon(self.bow)
-        self.assertEqual(self.en.attack(), 13)
+        self.assertIn(self.en.attack(), [13, 26])
         self.en.equip_weapon(self.axe)
-        self.assertEqual(self.en.attack(), 19)
+        self.assertIn(self.en.attack(), [19, 38])
 
 
 if __name__ == '__main__':
