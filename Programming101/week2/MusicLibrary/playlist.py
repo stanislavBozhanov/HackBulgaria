@@ -14,4 +14,7 @@ class Playlist():
             index = index - 1
 
     def total_length(self):
-        pass
+        seconds = 0
+        for item in self.songs:
+            seconds += item.length
+        return seconds

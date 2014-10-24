@@ -29,7 +29,7 @@ class TestPlaylist(unittest.TestCase):
         self.assertNotIn(self.ruby, self.plist.songs)
 
     def test_total_length(self):
-        self.assertEqual(self.plist.total_lenght(), 600)
+        self.assertEqual(self.plist.total_length(), 600)
 
 if __name__ == '__main__':
     unittest.main()
