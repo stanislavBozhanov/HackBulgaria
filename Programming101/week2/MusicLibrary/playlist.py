@@ -1,3 +1,28 @@
+from song import Song
+import os.path
+import json
+
+
+def load(file_name):
+    my_file = open(file_name, 'r')
+    content = my_file.read()
+    content = json.loads(content)
+    my_file.close()
+    loaded_plist = Playlist(content['name'])
+    for song in content['songs']:
+        loaded_plist.songs.append(
+            Song(
+                song['name'],
+                song['artist'],
+                song['album'],
+                song['rating'],
+                song['length'],
+                song['bitrate']
+            )
+        )
+    return loaded_plist
+
+
 class Playlist():
     def __init__(self, name):
         self.name = name
@@ -47,3 +72,15 @@ class Playlist():
             artists.append(item.artist)
         artists = list(set(artists))
         return artists
+
+    def save(self):
+        playlist = {"name": self.name, "songs": []}
+        for item in self.songs:
+            item = item.__dict__
+            playlist["songs"].append(item)
+        if os.path.isfile(self.name + ".json"):
+            print("That playlist name is taken")
+        else:
+            my_file = open("{}.json".format(self.name), 'a+')
+            my_file.write(json.dumps(playlist))
+            my_file.close()

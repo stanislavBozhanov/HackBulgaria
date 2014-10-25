@@ -57,8 +57,5 @@ class TestPlaylist(unittest.TestCase):
     def test_show_artists(self):
         self.assertEqual(self.plist.show_artists(), ["Kaiser Chiefs"])
 
-    def test_print_list(self):
-        print(self.plist)
-
 if __name__ == '__main__':
     unittest.main()
