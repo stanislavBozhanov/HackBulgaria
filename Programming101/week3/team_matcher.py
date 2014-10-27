@@ -1,5 +1,6 @@
+#list = [list[a:a+b] for i in range(0, len(list), b)]
 import requests
-
+import random
 #hack_url = 'https://hackbulgaria.com/api/students'
 
 
@@ -44,9 +45,11 @@ class TeamMatcher():
 
     def match_teams(self, course_id, team_size, group_time):
         working_array = []
-        for person in self.courses_with_people[self.courses_names[course_id-1]]:
-            if person[1] == group_time:
+        for person in self.courses_with_people[self.courses_names[int(course_id)-1]]:
+            if person[1] == int(group_time):
                 working_array.append(person[0])
+        random.shuffle(working_array)
+        working_array = [working_array[i:i+int(team_size)] for i in range(0, len(working_array), int(team_size))]
         return working_array
 
 print(TeamMatcher.HELLO_MESSAGE)
@@ -60,9 +63,9 @@ while(True):
     if command[0] == 'list_courses':
         a.list_courses()
     elif command[0] == 'match_teams':
-        team = a.match_teams(command[1], command[2], command[3])
-        for item in team:
-            print(item)
+        teams = a.match_teams(command[1], command[2], command[3])
+        for team in teams:
+            print(team)
     elif command[0] == 'exit':
         print('Program exited')
         break
