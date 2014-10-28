@@ -1,9 +1,9 @@
 def sum_of_divisors(n):
-    _sum = 0
+    sum_ = 0
     for number in range(1, n+1):
         if n % number == 0:
-            _sum += number
-    return _sum
+            sum_ += number
+    return sum_
 
 
 def main():

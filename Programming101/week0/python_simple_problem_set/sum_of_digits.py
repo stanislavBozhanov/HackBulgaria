@@ -1,10 +1,10 @@
 def sum_of_digits(n):
-    _sum = 0
+    sum_ = 0
     n = abs(n)
     while(n > 0):
-        _sum += n % 10
+        sum_ += n % 10
         n //= 10
-    return _sum
+    return sum_
 
 
 def main():
