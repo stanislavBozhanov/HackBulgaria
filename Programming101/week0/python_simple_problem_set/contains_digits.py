@@ -4,7 +4,7 @@ from contains_digit import contains_digit
 def contains_digits(number, digits):
     result = True
     for dig in digits:
-        if not contains_digit(number, str(dig)):
+        if not contains_digit(number, dig):
             return False
     return result
 
