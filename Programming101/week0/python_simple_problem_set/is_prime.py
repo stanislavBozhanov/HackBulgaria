@@ -1,8 +1,11 @@
+from math import sqrt, floor
+
+
 def is_prime(n):
     prime = True
     if n < 2:
         return False
-    for number in range(2, n-1):
+    for number in range(2, int(floor(sqrt(n))) + 1):
         if n % number == 0:
             prime = False
     return prime
