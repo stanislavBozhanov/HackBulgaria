@@ -1,9 +1,5 @@
 def number_to_list(n):
-    result = []
-    while n > 0:
-        result.append(n % 10)
-        n //= 10
-    result.reverse()
+    result = [int(dig) for dig in str(n)]
     return result
 
 
