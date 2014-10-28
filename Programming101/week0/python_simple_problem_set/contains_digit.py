@@ -1,8 +1,6 @@
 def contains_digit(number, digit):
-    arr = [ch for ch in str(number)]
-    for ch in arr:
-        if ch == str(digit):
-            return True
+    if str(digit) in str(number):
+        return True
     return False
 
 
