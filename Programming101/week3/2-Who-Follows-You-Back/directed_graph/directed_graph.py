@@ -23,8 +23,9 @@ class DirectedGraph():
     def path_between(self, node_a, node_b):
         if node_b in self.graph[node_a]:
             return True
-
+        self.checked.append(node_a)
         for node in self.graph[node_a]:
-            if self.path_between(node, node_b):
-                return True
+            if node not in self.checked:
+                if self.path_between(node, node_b):
+                    return True
         return False
