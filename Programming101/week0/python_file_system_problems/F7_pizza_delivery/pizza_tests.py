@@ -20,5 +20,10 @@ class TestConsolePizzaOrders(unittest.TestCase):
         self.assertEqual(self.orders['Rado'], 10.0)
         self.assertEqual(self.orders['Ivan'], 6.43)
 
+    def test_status_command(self):
+        take_command(['take', 'Maria', '11.1'], self.orders)
+        self.assertEqual(status_command(self.orders), 'Maria - 11.10\n')
+
+
 if __name__ == '__main__':
     unittest.main()

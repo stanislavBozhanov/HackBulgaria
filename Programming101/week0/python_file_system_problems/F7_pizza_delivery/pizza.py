@@ -1,4 +1,14 @@
+import os
+from time import time
+from datetime import datetime
+
 orders = {}
+
+
+def get_stamp():
+    ts = time()
+    stamp = datetime.fromtimestamp(ts).strftime('%Y_%m_%d_%H_%M_%S')
+    return stamp
 
 
 def input():
@@ -23,5 +33,27 @@ def take_command(command, orders):
 
 
 def status_command(orders):
+    status = ""
     for order in orders:
-        print("{} - {:.2f}".format(order, orders[order]))
+        status += "{} - {:.2f}\n".format(order, orders[order])
+    return status
+
+
+def save():
+    stamp = get_stamp()
+    filename = stamp + '.txt'
+    content = status_command(orders)
+    f = open(filename, 'w')
+    f.write(content)
+    f.close()
+
+
+def list():
+    order_list = {}
+    path = os.getcwd()
+    counter = 1
+    for filename in os.listdir(path):
+        if filename.endswith('.txt'):
+            order_list[counter] = filename
+        counter += 1
+    return order_list
