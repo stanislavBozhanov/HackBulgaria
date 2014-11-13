@@ -80,6 +80,13 @@ def show_projections(db, cursor, movie_id, date_=None):
             print('[{id}] - {date_} ({type_})'.format(**row))
 
 
+def insert_reservation(db, cursor, username, projection_id, row, cow):
+    cursor = db.cursor()
+    cursor.execute('''INSERT INTO reservations(username, projection_id, row, cow)
+                    VALUES(?,?,?,?)''', (username, projection_id, row, cow))
+    db.commit()
+
+
 def main():
     db = sqlite3.connect('cinema.db')
     db.row_factory = sqlite3.Row
@@ -109,6 +116,8 @@ def main():
                 show_projections(db, cursor, movie_id, date_)
             elif len(command) == 2:
                 show_projections(db, cursor, movie_id)
+        elif command[0] == 'make_reservation':
+
         # elif command[0] == 'remove_movie':
         #     name = input('Enter movie name>')
         #     remove_movie(db, name)
