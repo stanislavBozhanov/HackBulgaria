@@ -11,7 +11,6 @@ def create_table_movies(db, cursor):
 
 
 def create_table_projections(db, cursor):
-    cursor = db.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS projections(
                 id INTEGER PRIMARY KEY,
                 movie_id INTEGER,
@@ -24,7 +23,6 @@ def create_table_projections(db, cursor):
 
 
 def create_table_reservations(db, cursor):
-    cursor = db.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS reservations(
                 id INTEGER  PRIMARY KEY,
                 username TEXT,
@@ -37,27 +35,23 @@ def create_table_reservations(db, cursor):
 
 
 def insert_movie(db, cursor, name, rating):
-    cursor = db.cursor()
     cursor.execute('''INSERT INTO movies(name, rating) VALUES(?,?)''', (name, rating))
     db.commit()
 
 
 def show_movies(db, cursor):
-    cursor = db.cursor()
     result = cursor.execute('SELECT id, name, rating FROM movies ORDER BY rating')
     for row in result:
         print('[{id}] - {name} ({rating})'.format(**row))
 
 
 def insert_projection(db, cursor, movie_id, type_, date_, time_):
-    cursor = db.cursor()
     cursor.execute('''INSERT INTO projections(movie_id, type_, date_, time_)
                     VALUES(?,?,?,?)''', (movie_id, type_, date_, time_))
     db.commit()
 
 
 def show_projections(db, cursor, movie_id, date_=None):
-    cursor = db.cursor()
     if not date_:
         result = cursor.execute(''' SELECT projections.id, projections.date_, projections.time_, movies.name, projections.type_
                                     FROM projections
@@ -80,6 +74,16 @@ def show_projections(db, cursor, movie_id, date_=None):
             print('[{id}] - {date_} ({type_})'.format(**row))
 
 
+def get_reserved_seats(db, cursor, projection_id):
+    seats = []
+    result = cursor.execute(''' SELECT row, col
+                                FROM reservations
+                                WHERE projection_id = ?''', (projection_id,))
+    for line in result:
+        seats.append((line['row'], line['col']))
+    return seats
+
+
 def insert_reservation(db, cursor, username, projection_id, row, col):
     cursor = db.cursor()
     cursor.execute('''INSERT INTO reservations(username, projection_id, row, col)
@@ -100,6 +104,8 @@ def create_all_tables(db, cursor):
 def main():
     db = sqlite3.connect('cinema.db')
     db.row_factory = sqlite3.Row
+    db.execute('PRAGMA foreign_keys = ON')
+    db.commit()
     cursor = db.cursor()
     create_all_tables(db, cursor)
     while True:
@@ -135,6 +141,14 @@ def main():
             row = int(input('row>'))
             col = int(input('col>'))
             insert_reservation(db, cursor, username, projection_id, row, col)
+
+        # elif command[0] == 'make_reservation':
+        #     username = input('Choose name>')
+        #     number_of_tickets = int(input('Choose number of tickets>'))
+        #     print('Current movies:')
+        #     show_movies(db, cursor)
+        #     movie_id = int(input('Choose a movie>'))
+        #     movie_name = cursor.execute('SELECT name FROM movies WHERE id = ?', (movie_id,)).fetchone()['name']
 
         elif command[0] == 'break':
             db.close()
