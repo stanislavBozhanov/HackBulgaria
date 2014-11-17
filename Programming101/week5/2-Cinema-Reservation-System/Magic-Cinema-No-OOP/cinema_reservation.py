@@ -80,10 +80,10 @@ def show_projections(db, cursor, movie_id, date_=None):
             print('[{id}] - {date_} ({type_})'.format(**row))
 
 
-def insert_reservation(db, cursor, username, projection_id, row, cow):
+def insert_reservation(db, cursor, username, projection_id, row, col):
     cursor = db.cursor()
-    cursor.execute('''INSERT INTO reservations(username, projection_id, row, cow)
-                    VALUES(?,?,?,?)''', (username, projection_id, row, cow))
+    cursor.execute('''INSERT INTO reservations(username, projection_id, row, col)
+                    VALUES(?,?,?,?)''', (username, projection_id, row, col))
     db.commit()
 
 
@@ -93,8 +93,8 @@ def create_all_tables(db, cursor):
     create_table_reservations(db, cursor)
 
 
-def show_reservations():
-    matrix = ['.' for x in range(1,11) ]
+# def show_reservations():
+#     matrix = ['.' for x in range(1,11) ]
 
 
 def main():
@@ -128,6 +128,13 @@ def main():
                 show_projections(db, cursor, movie_id, date_)
             elif len(command) == 2:
                 show_projections(db, cursor, movie_id)
+
+        elif command[0] == 'insert_reservation':
+            username = input('username>')
+            projection_id = int(input('projection_id>'))
+            row = int(input('row>'))
+            col = int(input('col>'))
+            insert_reservation(db, cursor, username, projection_id, row, col)
 
         elif command[0] == 'break':
             db.close()
