@@ -84,8 +84,41 @@ def get_reserved_seats(db, cursor, projection_id):
     return seats
 
 
+def reserve_seats(reserved):
+    matrix = [
+        [' ', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        [1, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [2, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [3, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [4, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [5, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [6, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [7, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [8, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [9, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+        [10, '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+    ]
+    for item in reserved:
+        matrix[item[0]][item[1]] = 'X'
+
+    return matrix
+
+
+def print_seats(matrix):
+    for row in matrix:
+        print(row)
+
+
+def get_projections_for_movie(db, cursor, movie_id):
+    result = cursor.execute(''' SELECT id, date_, time_, type_
+                                FROM projections
+                                WHERE movie_id = ?''', (movie_id,)).fetchall()
+    for line in result:
+        reserved = get_reserved_seats(db, cursor, line['id'])
+        print('[{id}] - {date_} {time_} ({type_})'.format(**line) + ' - {} spots available'.format(100 - len(reserved)))
+
+
 def insert_reservation(db, cursor, username, projection_id, row, col):
-    cursor = db.cursor()
     cursor.execute('''INSERT INTO reservations(username, projection_id, row, col)
                     VALUES(?,?,?,?)''', (username, projection_id, row, col))
     db.commit()
@@ -142,13 +175,15 @@ def main():
             col = int(input('col>'))
             insert_reservation(db, cursor, username, projection_id, row, col)
 
-        # elif command[0] == 'make_reservation':
-        #     username = input('Choose name>')
-        #     number_of_tickets = int(input('Choose number of tickets>'))
-        #     print('Current movies:')
-        #     show_movies(db, cursor)
-        #     movie_id = int(input('Choose a movie>'))
-        #     movie_name = cursor.execute('SELECT name FROM movies WHERE id = ?', (movie_id,)).fetchone()['name']
+        elif command[0] == 'make_reservation':
+            username = input('Choose name>')
+            number_of_tickets = int(input('Choose number of tickets>'))
+            print('Current movies:')
+            show_movies(db, cursor)
+            movie_id = int(input('Choose a movie>'))
+            movie_name = cursor.execute('SELECT name FROM movies WHERE id = ?', (movie_id,)).fetchone()['name']
+            print('Projections for movie {}'.format(movie_name))
+            get_projections_for_movie(db, cursor, movie_id)
 
         elif command[0] == 'break':
             db.close()
