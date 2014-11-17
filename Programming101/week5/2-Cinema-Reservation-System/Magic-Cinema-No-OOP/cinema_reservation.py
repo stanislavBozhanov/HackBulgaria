@@ -87,28 +87,40 @@ def insert_reservation(db, cursor, username, projection_id, row, cow):
     db.commit()
 
 
+def create_all_tables(db, cursor):
+    create_table_movies(db, cursor)
+    create_table_projections(db, cursor)
+    create_table_reservations(db, cursor)
+
+
+def show_reservations():
+    matrix = ['.' for x in range(1,11) ]
+
+
 def main():
     db = sqlite3.connect('cinema.db')
     db.row_factory = sqlite3.Row
     cursor = db.cursor()
-    create_table_movies(db, cursor)
-    create_table_projections(db, cursor)
-    create_table_reservations(db, cursor)
+    create_all_tables(db, cursor)
     while True:
         command = input('command>')
         command = command.split()
+
         if command[0] == 'show_movies':
             show_movies(db, cursor)
+
         elif command[0] == 'insert_movie':
             name = input('movie_name>')
             rating = float(input('movie_rating>'))
             insert_movie(db, cursor, name, rating)
+
         elif command[0] == 'insert_projection':
             movie_id = int(input('movie_id>'))
             type_ = input('type>')
             date_ = input('date>')
             time_ = input('time>')
             insert_projection(db, cursor, movie_id, type_, date_, time_)
+
         elif command[0] == 'show_projections':
             movie_id = int(command[1])
             if len(command) == 3:
@@ -116,11 +128,7 @@ def main():
                 show_projections(db, cursor, movie_id, date_)
             elif len(command) == 2:
                 show_projections(db, cursor, movie_id)
-        elif command[0] == 'make_reservation':
 
-        # elif command[0] == 'remove_movie':
-        #     name = input('Enter movie name>')
-        #     remove_movie(db, name)
         elif command[0] == 'break':
             db.close()
             break
