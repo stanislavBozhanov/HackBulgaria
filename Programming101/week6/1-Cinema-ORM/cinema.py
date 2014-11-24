@@ -40,5 +40,16 @@ class Cinema:
         self.__session.add(new_reservation)
         self.__session.commit()
 
-    # def show_movie_projection():
-    #     m_id = int(input('movie_id>'))
+    def show_movie_projections(self, movie_id, date_=None):
+        if date_:
+            all_projections = self.__session.query(Projection).\
+                filter(Projection.movie_id == int(movie_id), Projection.date_ == date_).\
+                order_by(Projection.time_)
+            for proj in all_projections:
+                print('[{}] - {} ({})'.format(proj.id, proj.time_, proj.type_))
+        else:
+            all_projections = self.__session.query(Projection).\
+                filter(Projection.movie_id == movie_id).\
+                order_by(Projection.date_, Projection.time_)
+            for proj in all_projections:
+                print('[{}] - {} {} ({})'.format(proj.id, proj.date_, proj.time_, proj.type_))

@@ -45,6 +45,8 @@ def main():
             arena.add_reservation()
         elif command == 'show_movies':
             arena.show_movies()
+        elif command == 'show_movie_projections':
+            arena.show_movie_projections(1, '2014-03-22')
 
 if __name__ == '__main__':
     main()
