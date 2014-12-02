@@ -20,7 +20,6 @@ class TestDungeon(unittest.TestCase):
         self.assertIn('S', content)
         my_file.close()
 
-    
 
 if __name__ == '__main__':
     unittest.main()

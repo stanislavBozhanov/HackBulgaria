@@ -1,14 +1,20 @@
 class Dungeon():
     def __init__(self, filepath):
         self.filepath = filepath
+        self.set_dungeon_map(filepath)
 
-    def print_map(self):
+    def _set_dungeon_map(self, filepath):
         my_file = open(self.filepath, 'r')
         content = my_file.read()
         content = content.split('\n')
-        for line in content:
-            print(line)
-        my_file.close()
+        self.dungeon_map = content
+
+    def print_map(self):
+        for row in self.dungeon_map:
+            print(row)
+
+    def spawn(player_name, entity):
+        pass
 
 
 # def main():
